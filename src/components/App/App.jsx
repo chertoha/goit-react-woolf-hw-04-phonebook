@@ -1,11 +1,12 @@
 import ContactForm from 'components/ContactForm';
-import Contacts from 'components/Contacts';
 import Container from 'components/Container';
 import Search from 'components/Search';
 import Section from 'components/Section';
 import { filterList } from 'utils/filterList';
 import { MainHeading } from './App.styled';
 import { useEffect, useState } from 'react';
+import ContactList from 'components/ContactList';
+import Notification from 'components/Notification';
 
 const STORAGE_KEY = 'contacts';
 
@@ -58,19 +59,23 @@ const App = () => {
 
       <Container>
         <Section title="Contacts">
-          <Contacts
-            contacts={filteredContacts}
-            onDelete={onDeleteContactHandler}
-          >
-            {contacts.length !== 0 && (
-              <Search
-                value={filter}
-                handler={e => {
-                  setFilter(e.target.value);
-                }}
-              />
-            )}
-          </Contacts>
+          {contacts.length !== 0 && (
+            <Search
+              value={filter}
+              handler={e => {
+                setFilter(e.target.value);
+              }}
+            />
+          )}
+
+          {contacts.length !== 0 ? (
+            <ContactList
+              contacts={filteredContacts}
+              onDelete={onDeleteContactHandler}
+            />
+          ) : (
+            <Notification message="No contacts" />
+          )}
         </Section>
       </Container>
     </div>
